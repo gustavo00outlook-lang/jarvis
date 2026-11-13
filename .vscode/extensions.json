@@ -1,0 +1,33 @@
+{
+  "recommendations": [
+    // Core Web / Next.js
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+
+    // React / Next.js quality of life
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "usernamehw.errorlens",
+
+    // GLSL / Shaders (very important for your .glsl, .vert, .frag files)
+    "slevesque.shader",
+    "kuba-p.glsl",
+
+    // Three.js / 3D development
+    "ms-vscode.vscode-json",
+    "streetsidesoftware.code-spell-checker",
+
+    // Python backend (parent folder)
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+
+    // General productivity
+    "gruntfuggly.todo-tree",
+    "aaron-bond.better-comments",
+    "pkief.material-icon-theme"
+  ]
+}

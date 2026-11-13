@@ -25,7 +25,7 @@ _AUDIT_RE = re.compile(
 VAULT_PATH = Path(
     os.getenv(
         "JARVIS_OBSIDIAN_VAULT",
-        str(Path.home() / "Documents" / "JARVIS-notes" / "reviews" / "ORQUESTRACAO-JARVIS.md"),
+        r"C:\Agencia calango\calango.studio\JARVIS\reviews\ORQUESTRACAO-JARVIS.md",
     )
 )
 
@@ -142,7 +142,7 @@ async def _live_health() -> Dict[str, Any]:
 
 def _read_voice_sample_source() -> str:
     try:
-        store = (Path.home() / '.hermes' / 'jarvis_voice.json')
+        store = Path(r"C:\Users\Micro\.hermes\jarvis_voice.json")
         if store.exists():
             return json.loads(store.read_text(encoding="utf-8")).get("sample_source", "")
     except Exception:
@@ -169,7 +169,7 @@ def _blockers(health: Dict[str, Any], voice: Dict[str, Any]) -> List[Dict[str, s
         })
     try:
         store = json.loads(
-            (Path.home() / '.hermes' / 'jarvis_voice.json').read_text(encoding="utf-8")
+            Path(r"C:\Users\Micro\.hermes\jarvis_voice.json").read_text(encoding="utf-8")
         )
         if store.get("xai_clone_blocked"):
             blockers.append({

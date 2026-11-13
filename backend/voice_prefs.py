@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-_STORE = (Path.home() / '.hermes' / 'jarvis_voice_pref.json')
+_STORE = Path(r"C:\Users\Micro\.hermes\jarvis_voice_pref.json")
 
 VOICES: Dict[str, Dict[str, Any]] = {
     "thomas": {
@@ -46,16 +46,17 @@ VOICES: Dict[str, Dict[str, Any]] = {
         "use_speaker_boost": True,
         "seed": 7001,
         "description": (
-            "Clone JARVIS Thomas na conta ElevenLabs de quem roda — "
-            "calmo, speed 0.95, stab 0.62, sem drift de tom. "
-            "Defina ELEVENLABS_VOICE_ID no .env.local."
+            "Clone oficial JARVIS Thomas (anlPErEbr1qc1OTkt7tt) — "
+            "calmo, speed 0.95, stab 0.62, sem drift de tom"
         ),
     },
     "xai": {
         "id": "xai",
         "label": "Jarvis — xAI TTS (custom)",
         "engine": "xai",
-        "xai_voice_id": "",
+        "xai_voice_id": (
+            ""
+        ),
         "language": "pt-BR",
         "speed": 1.0,
         "description": "Voz custom xAI — clone Jarvis via API TTS",

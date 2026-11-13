@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-VAULT = str(Path.home() / "Documents" / "JARVIS-notes")
+VAULT = r"C:\Agencia calango\calango.studio"
 CEREBRO = os.path.join("JARVIS", "cerebro")
 APRENDIZADOS = os.path.join(CEREBRO, "Aprendizados")
 PREFERENCIAS = os.path.join(CEREBRO, "Preferencias")

@@ -66,7 +66,7 @@ def play_on_pc(audio: bytes) -> None:
                 (
                     p
                     for p in (
-                        str(Path.home() / 'AppData' / 'Local' / 'Microsoft' / 'WinGet' / 'Packages' / 'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe' / 'ffmpeg-8.1.1-full_build' / 'bin' / 'ffplay.exe'),
+                        r"C:\Users\Micro\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffplay.exe",
                         r"C:\ffmpeg\bin\ffplay.exe",
                     )
                     if Path(p).is_file()
@@ -88,7 +88,7 @@ def play_on_pc(audio: bytes) -> None:
                     (
                         p
                         for p in (
-                            str(Path.home() / 'AppData' / 'Local' / 'Microsoft' / 'WinGet' / 'Packages' / 'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe' / 'ffmpeg-8.1.1-full_build' / 'bin' / 'ffmpeg.exe'),
+                            r"C:\Users\Micro\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe",
                             r"C:\ffmpeg\bin\ffmpeg.exe",
                         )
                         if Path(p).is_file()

@@ -25,11 +25,11 @@ Broadcast = Callable[[Dict[str, Any]], Awaitable[None]]
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
 _KNOWN_EXE = Path(
-    str(Path.home() / 'AppData' / 'Roaming' / 'npm' / 'node_modules' / '@anthropic-ai' / 'claude-code' / 'bin' / 'claude.exe')
+    r"C:\Users\Micro\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\bin\claude.exe"
 )
 _ENV_FILES = (
     _REPO_ROOT / ".env.local",
-    (Path.home() / '.hermes' / '.env'),
+    Path(r"C:\Users\Micro\.hermes\.env"),
 )
 
 _busy_lock = threading.Lock()

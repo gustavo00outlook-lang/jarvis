@@ -9,7 +9,6 @@ import os
 import shutil
 import subprocess
 import urllib.parse
-from pathlib import Path
 from typing import Any, Dict
 
 IS_WINDOWS = os.name == "nt"
@@ -24,8 +23,8 @@ VK = {
     "media_play_pause": 0xB3,
 }
 
-JARVIS_PROJECT = str(Path(__file__).resolve().parent.parent)
-OBSIDIAN_VAULT = str(Path.home() / "Documents" / "JARVIS-notes")
+JARVIS_PROJECT = r"C:\Users\Micro\Documents\Claude\Projects\Jarvis\jarvis-pro"
+OBSIDIAN_VAULT = r"C:\Agencia calango\calango.studio"
 
 FOLDER_ALIASES = {
     "downloads": os.path.join(os.path.expanduser("~"), "Downloads"),

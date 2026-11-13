@@ -1,0 +1,14 @@
+{
+  "idle": {
+    "zone": true,
+    "zoneClass": "jarvis-huw-dock-zone",
+    "opacity": "0",
+    "visibility": "hidden"
+  },
+  "hover": {
+    "zoneClass": "jarvis-huw-dock-zone is-hovered",
+    "opacity": "1",
+    "visibility": "visible"
+  },
+  "ok": true
+}

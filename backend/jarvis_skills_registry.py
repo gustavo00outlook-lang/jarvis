@@ -9,11 +9,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 _SKILL_ROOTS = [
-    Path(os.getenv("JARVIS_GROK_SKILLS", str(Path.home() / '.grok' / 'skills'))),
-    (Path.home() / '.grok' / 'bundled' / 'skills'),
-    Path(os.getenv("JARVIS_AGENTS_SKILLS", str(Path.home() / '.agents' / 'skills'))),
-    (Path(__file__).resolve().parent.parent / '.grok' / 'skills'),
-    (Path(__file__).resolve().parent.parent / '.claude' / 'skills'),
+    Path(os.getenv("JARVIS_GROK_SKILLS", r"C:\Users\Micro\.grok\skills")),
+    Path(r"C:\Users\Micro\.grok\bundled\skills"),
+    Path(os.getenv("JARVIS_AGENTS_SKILLS", r"C:\Users\Micro\.agents\skills")),
+    Path(r"C:\Users\Micro\Documents\Claude\Projects\Jarvis\jarvis-pro\.grok\skills"),
+    Path(r"C:\Users\Micro\Documents\Claude\Projects\Jarvis\jarvis-pro\.claude\skills"),
 ]
 
 _FRONTMATTER = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)

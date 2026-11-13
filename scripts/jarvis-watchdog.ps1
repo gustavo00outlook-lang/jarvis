@@ -1,7 +1,7 @@
 # Blindagem JARVIS — clone + backend + frontend + ollama.
 # Roda hidden via schtasks. Nao abre CMD. Nao mata clone saudavel.
 $ErrorActionPreference = "SilentlyContinue"
-$JarvisRoot = Split-Path $PSScriptRoot -Parent
+$JarvisRoot = "C:\Users\Micro\Documents\Claude\Projects\Jarvis\jarvis-pro"
 $LogFile = Join-Path $env:USERPROFILE "jarvis-watchdog.log"
 $Scripts = Join-Path $JarvisRoot "scripts"
 $env:JARVIS_PLAY_SYSTEM = "1"

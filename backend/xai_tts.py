@@ -11,7 +11,6 @@ Speech tags supported by xAI:
 
 import json
 import os
-from pathlib import Path
 from typing import Optional
 
 import httpx
@@ -20,7 +19,7 @@ from fastapi import HTTPException
 from xai_client import ensure_key
 
 XAI_TTS_URL = "https://api.x.ai/v1/tts"
-VOICE_STORE = str(Path.home() / '.hermes' / 'jarvis_voice.json')
+VOICE_STORE = r"C:\Users\Micro\.hermes\jarvis_voice.json"
 
 
 def _load_voice_store() -> dict:

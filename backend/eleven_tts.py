@@ -34,7 +34,7 @@ def _get_eleven_lock() -> asyncio.Lock:
 
 _ENV_PATHS = [
     Path(__file__).resolve().parent.parent / ".env.local",
-    (Path.home() / '.hermes' / '.env'),
+    Path(r"C:\Users\Micro\.hermes\.env"),
 ]
 
 # multilingual_v2: melhor fidelidade de tom/calma em pt-BR (vs turbo mais rápido)

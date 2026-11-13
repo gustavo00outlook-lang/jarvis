@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-STATE_FILE = (Path.home() / '.hermes' / 'jarvis_pending_action.json')
+STATE_FILE = Path(r"C:\Users\Micro\.hermes\jarvis_pending_action.json")
 
 
 def load_pending() -> Optional[Dict[str, Any]]:

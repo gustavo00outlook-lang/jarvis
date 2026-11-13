@@ -62,8 +62,8 @@ _PREFERRED_SMART = ["grok-4.6", "grok-4.3", "grok-4", "grok-3"]
 
 _ENV_PATHS = [
     Path(__file__).resolve().parent.parent / ".env.local",
-    (Path.home() / '.hermes' / '.env'),
-    (Path.home() / '.hermes' / 'grok.txt'),
+    Path(r"C:\Users\Micro\.hermes\.env"),
+    Path(r"C:\Users\Micro\.hermes\grok.txt"),
 ]
 
 _active_provider: Optional[str] = None
@@ -75,7 +75,7 @@ _ollama_available_cache: Optional[bool] = None
 _clients: dict[str, object] = {}
 _provider_exhausted_at: dict[str, float] = {}
 _QUOTA_COOLDOWN_SEC = float(os.getenv("JARVIS_QUOTA_COOLDOWN_SEC") or str(6 * 3600))
-_QUOTA_STORE = (Path.home() / '.hermes' / 'jarvis_llm_quota.json')
+_QUOTA_STORE = Path(r"C:\Users\Micro\.hermes\jarvis_llm_quota.json")
 
 
 def _load_quota_store() -> None:

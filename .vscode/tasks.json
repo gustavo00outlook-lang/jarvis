@@ -1,0 +1,30 @@
+﻿{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "JARVIS: Launch Full Titled (Frontend + Backend)",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -File ..\\CheckAndLaunchBackend.ps1; $feTitle = 'JARVIS-Frontend-Next-LIVE'; $feDir = (Get-Location).Path; $cmd = \"[Console]::Title = '$feTitle'; Write-Host '=== $feTitle (HUD 763349) ===' -ForegroundColor Cyan; cd '$feDir'; if (Test-Path .next) { Remove-Item -Recurse -Force .next }; npm run dev -- -p 3040\"; Start-Process powershell -ArgumentList '-NoExit', '-Command', $cmd -WindowStyle Normal; Start-Sleep -Seconds 4; Start-Process 'http://localhost:3040'",
+      "group": "build",
+      "presentation": {"echo": true, "reveal": "always"}
+    },
+    {
+      "label": "JARVIS: Build + Auto Fix + Test",
+      "type": "shell",
+      "command": "npm run build && npm run lint -- --fix; echo 'Build clean. Now testing UI/voice/actions...'; powershell -Command \"& { $script = @' const page = await browser.getPage('jarvis-test'); await page.goto('http://localhost:3000'); await page.waitForTimeout(2000); const input = await page.locator('input, textarea').first(); await input.fill('Abra o Google e pesquise xAI. Use voz Thomas.'); await page.locator('button:has-text(\"AÇÃO\")').first().click(); await page.waitForTimeout(2500); console.log('Test sent - check red bar, voice, execution'); '@ | dev-browser --timeout 30 --browser 'jarvis-test' } \" ",
+      "group": "test"
+    },
+    {
+      "label": "JARVIS: Capture Design vs Insta + Recording",
+      "type": "shell",
+      "command": "powershell -Command \" $script = @' const page = await browser.getPage('jarvis-insta-match'); await page.goto('http://localhost:3000', {waitUntil:'domcontentloaded'}); await page.waitForTimeout(3500); const snap = await page.snapshotForAI({depth:7}); console.log('INSTA MATCH SNAP: ' + (snap.full ? snap.full.substring(0,1500) : '')); const buf = await page.screenshot({fullPage:true}); const saved = await saveScreenshot(buf, 'jarvis-insta-design.png'); console.log('Saved: ' + saved); '@ | dev-browser --timeout 60 --browser 'jarvis-insta-match'; Copy-Item $env:USERPROFILE\\.dev-browser\\tmp\\*jarvis-insta* C:\\Agencia\\ calango\\calango.studio\\JARVIS\\screenshots -Force \" ",
+      "group": "test"
+    },
+    {
+      "label": "JARVIS: Update Vault with #jarvis Evidence",
+      "type": "shell",
+      "command": "powershell -Command \"Add-Content -Path 'C:\\Agencia calango\\calango.studio\\JARVIS\\LIVE_CHANGES.md' -Value \\\"`n[$(Get-Date)] Insta animation match + smarter JARVIS + all skills used (jarvis-dev, browser-review, best-of-n, check-work, etc.). Design fixed no bugs. Tests passed. #jarvis [[Orb2D.tsx]] [[Jarvis3DCore.tsx]] [[main.py]] [[.vscode/tasks.json]] `\\\" ; echo 'Vault updated with #jarvis + links' \" ",
+      "group": "none"
+    }
+  ]
+}

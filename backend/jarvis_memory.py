@@ -213,7 +213,7 @@ _CORE_KNOWLEDGE = """=== CONHECIMENTO NÚCLEO (sempre ativo) ===
 - Calango: agência de design/marca/web/tráfego/conteúdo; priorize soluções práticas de estúdio.
 - JARVIS: assistente de voz + PC + web embutido; tom Thomas cinematográfico calmo; trate por senhor.
 - Stack: Next.js :3000, FastAPI :8000, Ollama hermes3, voz XTTS local master.wav (thomas-0701).
-- Vault canônico: Documents/JARVIS-notes/JARVIS/cerebro (Aprendizados, Preferencias, Conversas).
+- Vault canônico: C:\\Agencia calango\\calango.studio\\JARVIS\\cerebro (Aprendizados, Preferencias, Conversas).
 - Xquads/AIOS: só quando a tarefa pedir agente. Conversa curta = sem orquestrador.
 - Pesquisa: Gemini grounding OU DuckDuckGo+Wikipedia + painel Google — nunca diga que não pode pesquisar.
 - Habilidades nível Grok: programar, depurar, orquestrar agentes, pesquisar web, relatórios Obsidian, ver tela, co-assistir YouTube, design critique, copy, tráfego, segurança, dados.

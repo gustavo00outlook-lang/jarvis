@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional, Dict, Any, List
 from datetime import datetime
 
-STATE_FILE = (Path.home() / '.hermes' / 'jarvis_conversation_state.json')
+STATE_FILE = Path(r"C:\Users\Micro\.hermes\jarvis_conversation_state.json")
 MAX_HISTORY = 32
 MAX_SUCCESSFUL = 5
 

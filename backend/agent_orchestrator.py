@@ -14,9 +14,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-_STORE = (Path.home() / '.hermes' / 'jarvis_active_agent.json')
-_XQUADS = Path(os.getenv("JARVIS_XQUADS_PATH", str(Path.home() / 'xquads-squads')))
-_AIOS = Path(os.getenv("JARVIS_AIOS_PATH", str(Path.home() / 'aios-core')))
+_STORE = Path(r"C:\Users\Micro\.hermes\jarvis_active_agent.json")
+_XQUADS = Path(os.getenv("JARVIS_XQUADS_PATH", r"C:\Users\Micro\xquads-squads"))
+_AIOS = Path(os.getenv("JARVIS_AIOS_PATH", r"C:\Users\Micro\aios-core"))
 
 _YAML_BLOCK = re.compile(r"```ya?ml\s*\n(.*?)```", re.DOTALL | re.IGNORECASE)
 

@@ -1,4 +1,4 @@
-' Atalho silencioso. A pasta do script e a raiz do JARVIS.
+' Atalho silencioso. Funciona na pasta do projeto, em qualquer disco.
 Set fso = CreateObject("Scripting.FileSystemObject")
 Set sh = CreateObject("Wscript.Shell")
 root = fso.GetParentFolderName(WScript.ScriptFullName)

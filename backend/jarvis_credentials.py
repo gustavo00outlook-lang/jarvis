@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-SECRETS_FILE = (Path.home() / '.hermes' / 'jarvis_secrets.json')
+SECRETS_FILE = Path(r"C:\Users\Micro\.hermes\jarvis_secrets.json")
 
 
 def _load() -> Dict[str, Any]:

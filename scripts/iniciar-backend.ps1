@@ -98,8 +98,8 @@ if (-not $env:JARVIS_AGENT_ORCHESTRATOR) { $env:JARVIS_AGENT_ORCHESTRATOR = "1" 
 if (-not $env:JARVIS_ORCHESTRATOR_LAZY) { $env:JARVIS_ORCHESTRATOR_LAZY = "0" }
 $env:PYTHONUNBUFFERED = "1"
 if (-not $env:JARVIS_SKIP_XAI) { $env:JARVIS_SKIP_XAI = "0" }
-if (-not $env:JARVIS_XQUADS_PATH) { $env:JARVIS_XQUADS_PATH = Join-Path $env:USERPROFILE "xquads-squads" }
-if (-not $env:JARVIS_AIOS_PATH) { $env:JARVIS_AIOS_PATH = Join-Path $env:USERPROFILE "aios-core" }
+$env:JARVIS_XQUADS_PATH = "C:\Users\Micro\xquads-squads"
+$env:JARVIS_AIOS_PATH = "C:\Users\Micro\aios-core"
 
 if ($Foreground) {
     Set-Location $Backend

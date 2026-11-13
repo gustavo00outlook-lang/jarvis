@@ -20,7 +20,7 @@ except ImportError:
     ormsgpack = None  # type: ignore
 
 FISH_TTS_URL = "https://api.fish.audio/v1/tts"
-_VOICE_STORE = str(Path.home() / '.hermes' / 'jarvis_voice.json')
+_VOICE_STORE = r"C:\Users\Micro\.hermes\jarvis_voice.json"
 _ASSETS = Path(__file__).resolve().parent / "assets"
 
 # Thomas puro — briefing Malibu (whisper transcript exato)
@@ -43,9 +43,9 @@ _THOMAS_TRANSCRIPT = (
 )
 
 _ENV_PATHS = [
-    str(Path.home() / '.hermes' / '.env'),
-    str(Path.home() / '.hermes' / 'fish.txt'),
-    str(Path.home() / '.hermes' / 'fish_team.json'),
+    r"C:\Users\Micro\.hermes\.env",
+    r"C:\Users\Micro\.hermes\fish.txt",
+    r"C:\Users\Micro\.hermes\fish_team.json",
 ]
 
 FISH_MODEL = os.getenv("FISH_TTS_MODEL", "s2-pro")
