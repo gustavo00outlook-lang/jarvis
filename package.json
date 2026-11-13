@@ -1,0 +1,41 @@
+{
+  "name": "jarvis-pro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "tsc --noEmit",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verificar-jarvis.ps1",
+    "reparar": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/reparar-jarvis.ps1",
+    "atalho": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/criar-atalho-jarvis.ps1",
+    "backend": "cd backend && python -m uvicorn main:app --host 127.0.0.1 --port 8000"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.0.0",
+    "@react-three/fiber": "^9.0.0",
+    "@react-three/postprocessing": "^3.0.0",
+    "gsap": "^3.12.5",
+    "leva": "^0.9.35",
+    "next": "^15.0.0",
+    "postprocessing": "^6.36.0",
+    "react": "^19.1.8",
+    "react-dom": "^19.1.8",
+    "three": "^0.160.0",
+    "three-stdlib": "^2.34.0",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.160.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.5.0"
+  }
+}

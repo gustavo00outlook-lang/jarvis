@@ -1,0 +1,1393 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Huw Prosser cinematic sci-fi palette: electric cyan #00d4ff on near-black #050505 */
+  --jarvis-primary: #00d4ff;
+  --jarvis-accent: #22ffaa;
+  --jarvis-warning: #ffcc44;
+  --jarvis-cyan: #00d4ff;
+  --jarvis-bright: #5BD7FF;
+  --jarvis-bg: #0a1428;
+  --jarvis-panel-bg: rgba(5, 5, 5, 0.85);
+  --jarvis-border: rgba(0, 212, 255, 0.25);
+  --jarvis-motion-ms: 980ms;
+  --jarvis-motion-ms-close: 560ms;
+  --jarvis-motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --jarvis-motion-ease-orb: cubic-bezier(0.12, 0.9, 0.2, 1);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  color: #fff;
+  cursor: default;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Orbitron", sans-serif;
+}
+
+/* huwprosser monitor UI: sem vignette pesada */
+
+* { 
+  user-select: none; 
+  -webkit-user-select: none;
+}
+
+/* Subtle HUD scanline + vignette already in components, but global polish */
+canvas {
+  display: block;
+}
+
+/* Nice focus states for any interactive elements that might appear */
+button:focus-visible {
+  outline: 1px solid var(--jarvis-primary);
+  outline-offset: 2px;
+}
+
+/* Caption text polish - enhanced Huw cinematic glow + tech tracking */
+.hud-caption {
+  font-feature-settings: "tnum";
+  text-shadow: 0 0 12px var(--jarvis-primary), 0 0 28px rgba(0, 212, 255, 0.4);
+}
+
+/* Music widget polish + frosted cyan accents (Huw multi-monitor panels) */
+.music-progress {
+  transition: width 120ms linear;
+}
+
+/* Keyboard hint overlay style */
+kbd {
+  font-family: ui-monospace, monospace;
+  background: rgba(255,255,255,0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* === Huw Prosser HUD Enhancements === */
+/* Stronger cyan glows on interactive/important elements */
+.glow-cyan {
+  box-shadow: 0 0 8px var(--jarvis-primary), 0 0 18px rgba(0, 212, 255, 0.35);
+}
+
+/* Deriva lateral — orb + Thunderstruck movem juntos (gravação) */
+@keyframes orb-drift-x {
+  0%, 100% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+}
+.orb-drift {
+  animation: orb-drift-x 9s ease-in-out infinite;
+}
+
+@keyframes red-confirmation-pulse {
+  0%, 100% { opacity: 0.88; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* CSS POLISH NOTE (from live dev test): background shorthand vs longhand warnings were isolated to Orb2D.tsx
+   dynamic styles (fixed by expanding all mixed layers to backgroundImage + backgroundSize lists etc).
+   Global rules here already use consistent longhands where multi-layer (noise, scanlines) or pure shorthands;
+   no mixing that triggers during rerenders. Kept as-is for minimal change. */
+
+/* Tech schematic lines / subtle grid feel on panels */
+.tech-panel {
+  border: 1px solid var(--jarvis-border);
+  background: var(--jarvis-panel-bg);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.08), inset 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Subtle film grain / noise for holographic depth (lightweight CSS) - Huw style
+   Used on rendered elements; fixed positioning applied where inserted in layout */
+.noise-overlay {
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+
+/* Enhanced scanlines (stronger but still subtle for cinematic CRT/holo) */
+.scanlines-enhanced {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 212, 255, 0.035) 0px,
+    rgba(0, 212, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+}
+
+/* Command center top HUD bar styling */
+.top-hud-bar {
+  font-family: 'Orbitron', ui-monospace, monospace;
+  letter-spacing: 3px;
+  border-bottom: 1px solid var(--jarvis-border);
+  background: linear-gradient(to bottom, rgba(5,5,5,0.95), rgba(5,5,5,0.75));
+  box-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 8px rgba(0, 212, 255, 0.1);
+}
+
+/* Hermes chat panel: frosted glass + cyan accent borders (multi-monitor command feel) */
+.hermes-chat-panel {
+  background: rgba(8, 8, 10, 0.88);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--jarvis-border);
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(0, 212, 255, 0.08) inset,
+    0 0 24px rgba(0, 212, 255, 0.12);
+}
+
+/* Chat input accent */
+.hermes-input {
+  border: 1px solid rgba(0, 212, 255, 0.18);
+}
+.hermes-input:focus-within {
+  border-color: var(--jarvis-primary);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+/* Viewport fixo — Edge app mode e Tauri (orb centrada em 50%/50%) */
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #050505;
+}
+
+.jarvis-app-body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+/* === Vídeo WhatsApp 2026-06-11 (estilo principal) === */
+.wa-jarvis-bg {
+  background-color: #06080c;
+  background-image:
+    linear-gradient(rgba(0, 160, 220, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 160, 220, 0.02) 1px, transparent 1px),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0, 100, 180, 0.03) 0%, transparent 70%);
+  background-size: 36px 36px, 36px 36px, 100% 100%;
+}
+
+.wa-particles {
+  opacity: 0.45;
+  background-image:
+    radial-gradient(1.2px 1.2px at 8% 14%, rgba(255, 255, 255, 0.18) 50%, transparent 50%),
+    radial-gradient(1px 1px at 22% 38%, rgba(255, 255, 255, 0.12) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 35% 72%, rgba(255, 255, 255, 0.14) 50%, transparent 50%),
+    radial-gradient(1px 1px at 48% 22%, rgba(255, 255, 255, 0.1) 50%, transparent 50%),
+    radial-gradient(1.2px 1.2px at 62% 55%, rgba(255, 255, 255, 0.16) 50%, transparent 50%),
+    radial-gradient(1px 1px at 74% 18%, rgba(255, 255, 255, 0.11) 50%, transparent 50%),
+    radial-gradient(1.3px 1.3px at 88% 42%, rgba(255, 255, 255, 0.13) 50%, transparent 50%),
+    radial-gradient(1px 1px at 15% 82%, rgba(255, 255, 255, 0.09) 50%, transparent 50%),
+    radial-gradient(1.2px 1.2px at 55% 88%, rgba(255, 255, 255, 0.12) 50%, transparent 50%),
+    radial-gradient(1px 1px at 92% 78%, rgba(255, 255, 255, 0.1) 50%, transparent 50%),
+    radial-gradient(0.8px 0.8px at 42% 48%, rgba(0, 200, 255, 0.03) 50%, transparent 50%),
+    radial-gradient(0.8px 0.8px at 68% 35%, rgba(0, 200, 255, 0.025) 50%, transparent 50%);
+}
+
+.wa-vignette {
+  background: radial-gradient(ellipse 92% 85% at 50% 50%, transparent 32%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+/* Painel à ESQUERDA — página abre com animação; orb fica à direita */
+.huw-browser-panel {
+  position: absolute;
+  z-index: 12;
+  pointer-events: none;
+  left: 2.5vw;
+  right: auto;
+  top: 10vh;
+  width: min(56vw, 860px);
+  height: min(74vh, 660px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 0, 0) scale(0.96);
+  transform-origin: top left;
+  filter: blur(0) drop-shadow(0 20px 52px rgba(0, 0, 0, 0.5));
+  will-change: opacity, transform, filter;
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* Painel entra pela esquerda da tela */
+@keyframes jarvis-panel-open-from-left {
+  0% {
+    transform: translate3d(-62vw, 12px, 0) scale(0.82);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  40% {
+    opacity: 0.75;
+    filter: blur(3px);
+    transform: translate3d(-6vw, 4px, 0) scale(0.97);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 28px 72px rgba(0, 0, 0, 0.58));
+  }
+}
+
+.huw-browser-panel.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  animation: jarvis-panel-open-from-left var(--jarvis-motion-ms) var(--jarvis-motion-ease) both;
+}
+
+/* Fechar — painel sai pela esquerda */
+@keyframes jarvis-panel-close-to-left {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 28px 72px rgba(0, 0, 0, 0.58));
+  }
+  100% {
+    transform: translate3d(-52vw, 8px, 0) scale(0.9);
+    opacity: 0;
+    filter: blur(6px);
+    visibility: hidden;
+  }
+}
+
+.huw-browser-panel.is-closing {
+  visibility: visible;
+  pointer-events: none;
+  animation: jarvis-panel-close-to-left var(--jarvis-motion-ms-close) var(--jarvis-motion-ease) both;
+}
+
+.huw-browser-panel.is-closing .huw-browser-chrome {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transform: translate3d(-6px, 0, 0);
+  transition:
+    clip-path calc(var(--jarvis-motion-ms-close) * 0.5) var(--jarvis-motion-ease),
+    opacity calc(var(--jarvis-motion-ms-close) * 0.4) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms-close) * 0.45) var(--jarvis-motion-ease);
+  transition-delay: 0ms;
+}
+
+.huw-browser-panel.is-closing .huw-browser-viewport {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  transform: scaleY(0.96);
+  transition:
+    clip-path calc(var(--jarvis-motion-ms-close) * 0.45) var(--jarvis-motion-ease),
+    opacity calc(var(--jarvis-motion-ms-close) * 0.35) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms-close) * 0.4) var(--jarvis-motion-ease);
+  transition-delay: calc(var(--jarvis-motion-ms-close) * 0.06);
+}
+
+.huw-browser-panel.is-closing .huw-browser-bracket {
+  opacity: 0;
+  transform: scale(0.25);
+  transition:
+    opacity calc(var(--jarvis-motion-ms-close) * 0.35) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms-close) * 0.35) var(--jarvis-motion-ease);
+}
+
+/* Brackets encaixam nos cantos depois do painel materializar (efeito "montar") */
+.huw-browser-panel .huw-browser-bracket {
+  opacity: 0;
+  transform: scale(0.25);
+  transition:
+    opacity calc(var(--jarvis-motion-ms) * 0.5) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms) * 0.5) var(--jarvis-motion-ease);
+}
+.huw-browser-bracket--tl { transform-origin: top left; }
+.huw-browser-bracket--tr { transform-origin: top right; }
+.huw-browser-bracket--bl { transform-origin: bottom left; }
+.huw-browser-bracket--br { transform-origin: bottom right; }
+.huw-browser-panel.is-open .huw-browser-bracket {
+  opacity: 1;
+  transform: scale(1);
+}
+.huw-browser-panel.is-open .huw-browser-bracket--tl { transition-delay: calc(var(--jarvis-motion-ms) * 0.28); }
+.huw-browser-panel.is-open .huw-browser-bracket--tr { transition-delay: calc(var(--jarvis-motion-ms) * 0.34); }
+.huw-browser-panel.is-open .huw-browser-bracket--bl { transition-delay: calc(var(--jarvis-motion-ms) * 0.34); }
+.huw-browser-panel.is-open .huw-browser-bracket--br { transition-delay: calc(var(--jarvis-motion-ms) * 0.40); }
+
+/* Abertura em estágios: barra → página desdobra (visível após painel deslizar) */
+.huw-browser-chrome {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transform: translate3d(-8px, 0, 0);
+  transition:
+    clip-path calc(var(--jarvis-motion-ms) * 0.55) var(--jarvis-motion-ease),
+    opacity calc(var(--jarvis-motion-ms) * 0.4) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms) * 0.5) var(--jarvis-motion-ease);
+}
+.huw-browser-panel.is-open .huw-browser-chrome {
+  clip-path: inset(0 0 0 0);
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: calc(var(--jarvis-motion-ms) * 0.22);
+}
+
+/* Página: desdobra de cima + leve zoom (efeito "abrindo") */
+@keyframes jarvis-page-unfold {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    transform: scaleY(0.94);
+    opacity: 0.4;
+  }
+  55% {
+    opacity: 0.92;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.huw-browser-viewport {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  transform: scaleY(0.94);
+  transform-origin: top center;
+}
+.huw-browser-panel.is-open .huw-browser-viewport {
+  animation: jarvis-page-unfold calc(var(--jarvis-motion-ms) * 0.72) var(--jarvis-motion-ease) both;
+  animation-delay: calc(var(--jarvis-motion-ms) * 0.32);
+}
+
+.huw-browser-panel-inner {
+  /* Só chrome + screenshot: sem placa preta opaca cobrindo o orb */
+  background: rgba(8, 10, 14, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  height: 100%;
+}
+.huw-browser-panel:not(.is-open):not(.is-closing) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.huw-browser-bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(255, 255, 255, 0.38);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.huw-browser-bracket--tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+.huw-browser-bracket--tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+.huw-browser-bracket--bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+.huw-browser-bracket--br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+.huw-browser-chrome--interactive {
+  pointer-events: auto;
+}
+
+.huw-browser-chrome {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(18, 20, 26, 0.95) 0%, rgba(10, 12, 16, 0.88) 100%);
+}
+
+.huw-browser-viewport {
+  border-radius: 0 0 13px 13px;
+}
+
+.huw-browser-screenshot {
+  filter: saturate(0.94) contrast(1.02);
+  opacity: 0;
+  transform: scale(1.008);
+  transition:
+    opacity calc(var(--jarvis-motion-ms-close) * 0.85) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms-close) * 0.9) var(--jarvis-motion-ease);
+  will-change: opacity, transform;
+}
+
+.huw-browser-screenshot.is-loading {
+  opacity: 0.88;
+  transform: scale(1.004);
+}
+
+.huw-browser-screenshot.is-ready {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.huw-browser-shimmer {
+  background: linear-gradient(
+    110deg,
+    rgba(12, 14, 18, 1) 0%,
+    rgba(22, 28, 38, 0.9) 40%,
+    rgba(12, 14, 18, 1) 80%
+  );
+  background-size: 200% 100%;
+  animation: huw-browser-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes huw-browser-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.huw-browser-scanline {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  opacity: 0.35;
+}
+
+/* Zona larga embaixo — passar o mouse aqui revela mic + teclado */
+.jarvis-huw-dock-zone {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22vh;
+  min-height: 140px;
+  z-index: 9999;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3.5vh;
+}
+
+/* Indicador quando oculto — guia onde passar o mouse */
+.jarvis-huw-dock-zone::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1.8vh;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(127, 233, 255, 0.45);
+  box-shadow: 0 0 18px rgba(0, 200, 255, 0.35);
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  animation: jarvis-dock-hint-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes jarvis-dock-hint-pulse {
+  0%, 100% { opacity: 0.35; transform: translateX(-50%) scaleX(1); }
+  50% { opacity: 0.75; transform: translateX(-50%) scaleX(1.15); }
+}
+
+.jarvis-huw-dock-zone.is-hovered::before,
+.jarvis-huw-dock-zone.is-active::before {
+  opacity: 0;
+}
+
+/* Dock Huw — centro embaixo, mic + teclado sempre visíveis */
+.jarvis-huw-dock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  will-change: transform, opacity;
+  padding: 8px 24px 4px;
+}
+
+/* Gustavo: esconder as "sugestões" (o que ele pode fazer) */
+.jarvis-huw-suggestions { display: none !important; }
+
+/* Widgets (chat/música) abrindo — emanam com escala + fade + blur (estilo vídeo) */
+@keyframes jvWidgetOpen {
+  0%   { opacity: 0; transform: scale(0.82) translateY(14px); filter: blur(9px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+.jv-widget-open {
+  animation: jvWidgetOpen var(--jarvis-motion-ms) var(--jarvis-motion-ease) both;
+  transform-origin: center center;
+  will-change: opacity, transform, filter;
+}
+.jv-from-left  { transform-origin: left center; }
+.jv-from-right { transform-origin: right center; }
+@media (prefers-reduced-motion: reduce) {
+  .jv-widget-open { animation: none !important; }
+}
+
+.jarvis-huw-dock-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+  transition:
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    transform var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+}
+
+.jarvis-huw-dock-zone.is-hovered .jarvis-huw-dock-icons,
+.jarvis-huw-dock-zone.is-active .jarvis-huw-dock-icons,
+.jarvis-huw-dock-zone:focus-within .jarvis-huw-dock-icons {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+}
+
+.jarvis-huw-hint-error {
+  color: rgba(255, 120, 120, 0.92) !important;
+  max-height: 48px !important;
+  opacity: 1 !important;
+}
+
+.jarvis-huw-hint {
+  font-family: ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(127, 233, 255, 0.45);
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    max-height var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+}
+
+.jarvis-huw-dock-zone.is-hovered .jarvis-huw-hint,
+.jarvis-huw-dock-zone.is-active .jarvis-huw-hint {
+  opacity: 1;
+  max-height: 24px;
+}
+
+.jarvis-huw-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: min(92vw, 720px);
+  margin: 0 auto 10px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    max-height var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+}
+
+.jarvis-huw-dock-zone.is-hovered .jarvis-huw-suggestions,
+.jarvis-huw-dock-zone.is-active .jarvis-huw-suggestions {
+  opacity: 1;
+  max-height: 80px;
+}
+
+.jarvis-huw-chip {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: rgba(200, 230, 255, 0.82);
+  background: rgba(8, 20, 36, 0.72);
+  border: 1px solid rgba(127, 233, 255, 0.22);
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.jarvis-huw-chip:hover {
+  border-color: rgba(127, 233, 255, 0.5);
+  color: rgba(230, 248, 255, 0.95);
+}
+
+.jarvis-orb-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.jarvis-huw-icon-btn {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 12, 20, 0.72);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color calc(var(--jarvis-motion-ms) * 0.35) var(--jarvis-motion-ease),
+    background calc(var(--jarvis-motion-ms) * 0.35) var(--jarvis-motion-ease),
+    box-shadow calc(var(--jarvis-motion-ms) * 0.35) var(--jarvis-motion-ease),
+    transform calc(var(--jarvis-motion-ms) * 0.4) var(--jarvis-motion-ease-orb);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.jarvis-huw-icon-btn:hover {
+  border-color: rgba(0, 212, 255, 0.35);
+  transform: translateY(-3px) scale(1.04);
+}
+
+.jarvis-huw-icon-btn.is-active {
+  border-color: rgba(0, 212, 255, 0.55);
+  background: rgba(0, 212, 255, 0.12);
+  box-shadow: 0 0 28px rgba(0, 180, 255, 0.18);
+  transform: scale(1.06);
+}
+
+.jarvis-huw-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  animation: jarvis-huw-mic-pulse 1.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes jarvis-huw-mic-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.jarvis-huw-input-expand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(360px, 88vw);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition:
+    max-height var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    margin var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+  margin-bottom: 0;
+}
+
+.jarvis-huw-input-expand.is-open {
+  max-height: 56px;
+  opacity: 1;
+  pointer-events: auto;
+  margin-bottom: 4px;
+}
+
+.jarvis-huw-input-field {
+  flex: 1;
+  background: rgba(6, 14, 28, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 12px 18px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 300;
+  outline: none;
+  backdrop-filter: blur(12px);
+}
+
+.jarvis-huw-input-field::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.jarvis-huw-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: rgba(127, 233, 255, 0.9);
+  background: rgba(0, 212, 255, 0.08);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.jarvis-huw-send:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.jarvis-huw-confirm {
+  text-align: center;
+  padding: 10px 16px;
+  background: rgba(20, 4, 4, 0.88);
+  border: 1px solid rgba(255, 68, 68, 0.35);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  margin-bottom: 8px;
+}
+
+.jarvis-orb-dock {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: left, top, width, height, transform;
+  backface-visibility: hidden;
+}
+
+/* Header + legenda — entram/saem com o orb (sem pop) */
+.jarvis-huw-header {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  z-index: 30;
+  pointer-events: none;
+  text-align: center;
+  opacity: 0;
+  transform: translate3d(-50%, -10px, 0);
+  transition:
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    transform var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+  will-change: opacity, transform;
+}
+
+.jarvis-huw-header.is-visible {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.jarvis-huw-caption {
+  position: absolute;
+  left: 50%;
+  z-index: 15;
+  pointer-events: none;
+  text-align: center;
+  top: calc(50% + min(22vh, 22vw));
+  opacity: 0;
+  transform: translate3d(-50%, 8px, 0);
+  transition:
+    opacity var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease),
+    transform var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease),
+    left var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease),
+    top var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease);
+  will-change: opacity, transform, left, top;
+}
+
+.jarvis-huw-caption.is-visible {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.jarvis-huw-caption.is-browser-mode {
+  left: 72%;
+  top: calc(50% + min(17vh, 17vw));
+  max-width: min(380px, 36vw);
+}
+
+.jarvis-huw-caption.is-action-mode {
+  left: 58%;
+  top: calc(50% + min(18vh, 18vw));
+  max-width: min(420px, 40vw);
+}
+
+/* Legenda JARVIS — card sutil, some após a fala */
+.jarvis-conversation {
+  position: absolute;
+  left: 50%;
+  z-index: 25;
+  pointer-events: none;
+  top: calc(50% + min(20vh, 20vw));
+  transform: translate3d(-50%, 10px, 0);
+  text-align: center;
+  max-width: min(520px, 90vw);
+  opacity: 0;
+  transition:
+    opacity 0.55s var(--jarvis-motion-ease),
+    transform var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease),
+    left var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease),
+    top var(--orb-motion-ms, var(--jarvis-motion-ms)) var(--jarvis-motion-ease);
+}
+
+.jarvis-conversation.is-visible {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.jarvis-conversation.is-fading {
+  opacity: 0;
+  transform: translate3d(-50%, -6px, 0);
+  transition:
+    opacity 0.52s var(--jarvis-motion-ease),
+    transform 0.52s var(--jarvis-motion-ease);
+}
+
+.jarvis-conversation.is-browser-mode {
+  left: 72%;
+  top: calc(50% + min(15vh, 15vw));
+  max-width: min(340px, 36vw);
+  text-align: left;
+}
+
+.jarvis-conversation.is-action-mode {
+  left: 58%;
+  top: calc(50% + min(16vh, 16vw));
+  max-width: min(360px, 38vw);
+  text-align: left;
+}
+
+@keyframes jarvis-reply-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes jarvis-processing-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.jarvis-reply-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 300;
+  color: rgba(220, 240, 255, 0.88);
+  text-shadow: 0 0 18px rgba(80, 150, 190, 0.18);
+  letter-spacing: 0.015em;
+  animation: jarvis-reply-in var(--jarvis-text-ms, 420ms) var(--jarvis-motion-ease) both;
+}
+
+.jarvis-reply-text--processing {
+  color: rgba(180, 215, 240, 0.7);
+  font-style: italic;
+  font-size: 13px;
+  animation:
+    jarvis-reply-in var(--jarvis-text-ms, 420ms) var(--jarvis-motion-ease) both,
+    jarvis-processing-pulse 1.8s ease-in-out var(--jarvis-text-ms, 420ms) infinite;
+}
+
+.oper-status-ticker {
+  opacity: 0;
+  transform: translate3d(8px, 0, 0);
+  transition:
+    opacity var(--jarvis-motion-ms) var(--jarvis-motion-ease),
+    transform var(--jarvis-motion-ms) var(--jarvis-motion-ease);
+  will-change: opacity, transform;
+}
+
+.oper-status-ticker.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.oper-activity-bar {
+  display: block;
+  width: 3px;
+  min-height: 4px;
+  background: linear-gradient(180deg, rgba(127, 233, 255, 0.92), rgba(64, 168, 255, 0.28));
+  border-radius: 1px;
+  transition: height 0.09s ease-out, opacity 0.12s ease-out;
+}
+
+/* Barra inferior full-width — vídeo WhatsApp 11/06 */
+
+.wa-video-input-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px clamp(20px, 5vw, 56px) 14px;
+  background: rgba(2, 6, 14, 0.88);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+}
+
+.wa-video-input-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.wa-video-input-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.wa-video-input-center .wa-input-field {
+  width: 100%;
+  text-align: left;
+}
+
+.wa-video-shortcuts {
+  margin-top: 4px;
+  text-align: center;
+  font-family: ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.34);
+  white-space: nowrap;
+}
+
+.wa-video-auto-wrap {
+  flex-shrink: 0;
+}
+
+.wa-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6, 14, 28, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 6px 8px 6px 6px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 40px rgba(0, 100, 200, 0.08);
+}
+
+.wa-mic-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+.wa-input-field::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.wa-auto-btn {
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.35);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.wa-auto-btn[data-active="true"] {
+  color: #3ee8c2;
+  border-color: rgba(62, 232, 194, 0.45);
+  background: rgba(62, 232, 194, 0.08);
+}
+
+.wa-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.28);
+  color: rgba(127, 233, 255, 0.85);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.wa-send-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.orb-hud-v4-wrap {
+  container-type: inline-size;
+}
+
+.orb-hud-v4-label {
+  font-family: "Montserrat", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: clamp(11px, 14cqw, 32px);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  padding-left: 0.24em;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(0, 180, 255, 0.35);
+  user-select: none;
+  pointer-events: none;
+}
+
+.orb-hud-glow-wrap {
+  container-type: inline-size;
+}
+
+.orb-hud-glow-label {
+  font-family: "Montserrat", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: clamp(18px, 20cqw, 50px);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  padding-left: 0.28em;
+  color: #ffffff;
+  text-shadow: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.orb-wa-wrap {
+  container-type: inline-size;
+}
+
+.orb-huw-wrap {
+  container-type: inline-size;
+}
+
+.orb-huw-label {
+  font-family: "Montserrat", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: clamp(20px, 22cqw, 56px);
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  padding-left: 0.34em;
+  color: #ffffff;
+  text-shadow:
+    0 0 24px rgba(0, 200, 255, 0.45),
+    0 0 48px rgba(0, 160, 255, 0.2);
+  user-select: none;
+  pointer-events: none;
+}
+
+.wa-shortcuts-hint {
+  margin-top: 10px;
+  text-align: center;
+  font-family: ui-monospace, monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.wa-confirm-bar {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 68, 68, 0.35);
+  background: rgba(40, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.wa-confirm-btn {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(220, 38, 38, 0.75);
+  color: white;
+  font-size: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.wa-cancel-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  color: rgba(255, 180, 180, 0.85);
+  font-size: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* === TikTok @huwprosser/video/7633492472945069334 (referência canônica) === */
+.huw-screen {
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.huw-build-tag {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+  z-index: 6;
+  pointer-events: none;
+}
+
+.huw-top-hud {
+  position: absolute;
+  top: 4.8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(620px, 82vw);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.huw-top-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+}
+
+.huw-bracket {
+  width: 18px;
+  height: 9px;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+.huw-bracket-l { border-left: 1px solid rgba(255, 255, 255, 0.4); }
+.huw-bracket-r { border-right: 1px solid rgba(255, 255, 255, 0.4); }
+
+.huw-orb-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.huw-orb-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.huw-jarvis-label {
+  font-family: "Montserrat", "Segoe UI", ui-sans-serif, sans-serif;
+  font-size: clamp(12px, 1.15vw, 17px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em;
+  color: #ffffff;
+  text-shadow: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.huw-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0 16px;
+  background: transparent;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.huw-footer-btn {
+  pointer-events: auto;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.88);
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.huw-footer-btn:hover {
+  color: rgba(127, 233, 255, 0.95);
+  background: rgba(0, 212, 255, 0.06);
+}
+
+.huw-bottom-segment {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 1px;
+}
+
+.huw-bottom-icons {
+  display: flex;
+  gap: 56px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.huw-bottom-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.huw-bottom-dots span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.huw-bottom-dots .huw-dot-active {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.huw-chat-zone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28vh;
+  z-index: 40;
+}
+
+.huw-chat-minimal {
+  position: absolute;
+  bottom: 12vh;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: min(380px, 86vw);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.huw-chat-zone:hover .huw-chat-minimal,
+.huw-chat-minimal:focus-within {
+  opacity: 0.95;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* === Modo relógio (TikTok 7640255492077423894) === */
+.huw-mode-layer {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.7s ease;
+}
+.huw-mode-visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+.huw-mode-hidden {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.huw-clock-screen {
+  background-color: #0a0f22;
+}
+
+.huw-clock-jarvis {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Orbitron", ui-sans-serif, sans-serif;
+  font-size: clamp(10px, 1.2vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding-left: 0.12em;
+  color: rgba(255, 255, 255, 0.96);
+  pointer-events: none;
+  user-select: none;
+}
+
+.huw-clock-time {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Orbitron", ui-sans-serif, sans-serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.97);
+  pointer-events: none;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.huw-clock-date {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Orbitron", ui-sans-serif, sans-serif;
+  font-size: clamp(9px, 1.1vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  padding-left: 0.22em;
+  color: rgba(255, 255, 255, 0.72);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-drift,
+  .huw-browser-shimmer,
+  .jarvis-huw-dock-zone::before,
+  .jarvis-huw-pulse,
+  .jarvis-reply-text,
+  .jarvis-reply-text--processing {
+    animation: none !important;
+  }
+
+  .jarvis-orb-dock,
+  .huw-browser-panel,
+  .huw-browser-panel .huw-browser-bracket,
+  .huw-browser-chrome,
+  .huw-browser-viewport,
+  .jarvis-huw-dock-icons,
+  .huw-browser-screenshot,
+  .jarvis-huw-input-expand,
+  .jarvis-conversation,
+  .jarvis-user-echo,
+  .jarvis-reply-card,
+  .jarvis-huw-header,
+  .jarvis-huw-caption,
+  .oper-status-ticker {
+    transition: none !important;
+  }
+}
